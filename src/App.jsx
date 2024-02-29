@@ -33,6 +33,21 @@ function App() {
     generatePassword();
   }, [passLength, numAllowed, charAllowed]);
 
+  const hidePass = () => {
+    const passInput = document.getElementById("passInput");
+    const toggleShowEyeIcon = document.querySelector("#showEye");
+    const toggleHideEyeIcon = document.querySelector("#hideEye");
+    if (passInput.type === "text") {
+      passInput.type = "password";
+      toggleShowEyeIcon.style.display = "inline";
+      toggleHideEyeIcon.style.display = "none";
+    } else {
+      passInput.type = "text";
+      toggleShowEyeIcon.style.display = "none";
+      toggleHideEyeIcon.style.display = "inline";
+    }
+  };
+
   return (
     <>
       <div className="w-full max-w-md mx-auto shadow-md rounded-lg px-7 py-5 mt-20 text-white  bg-gray-700">
@@ -50,8 +65,20 @@ function App() {
             className="outline-none w-full py-3  px-4"
             placeholder="Strong Password"
             readOnly
+            id="passInput"
             ref={passwordRef}
           />
+          <button onClick={hidePass} className="eye" id="hideEye">
+            <i className="fa-solid fa-eye-slash"></i>
+          </button>
+          <button
+            onClick={hidePass}
+            className="eye"
+            id="showEye"
+            style={{ display: "none" }}
+          >
+            <i className="fa-solid fa-eye"></i>
+          </button>
 
           <button
             onClick={copyPassToClip}
@@ -73,9 +100,8 @@ function App() {
             <input
               style={{ display: "inline", textAlign: "center" }}
               type="range"
-              min={6}
-              max={90}
-              className="m-2 w-13 h-2 rounded-lg appearance-none cursor-e-resize"
+              min="6" max="65"
+              className="m-2 w-70 h-2 rounded-lg appearance-none cursor-e-resize"
               id="range"
               onChange={(e) => {
                 setPassLength(e.target.value);
